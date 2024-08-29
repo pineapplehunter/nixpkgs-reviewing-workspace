@@ -1,0 +1,53 @@
+name: 👁️
+on:
+  workflow_dispatch:
+    inputs:
+      subcmd:
+        type: choice
+        required: true
+        description: 'sub command to be used in nixpkgs-review'
+        default: 'pr'
+        options:
+          - pr
+          - rev
+          - wip
+      args:
+        type: string
+        required: true
+        description: 'Args to be used in nixpkgs-review'
+
+jobs:
+  tasks:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-24.04 # x86_64
+          # Add ARM based Linux runner if available in free plan
+          # https://github.blog/news-insights/product-news/arm64-on-github-actions-powering-faster-more-efficient-build-systems/
+          - macos-14 # aarch64
+          - macos-13 # x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          repository: 'NixOS/nixpkgs'
+      - uses: DeterminateSystems/nix-installer-action@ab6bcb2d5af0e904d04aea750e2089e9dc4cbfdd # v13
+      - uses: DeterminateSystems/magic-nix-cache-action@b46e247b898aa56e6d2d2e728dc6df6c84fdb738 # v7
+      - run: |
+          nix shell 'github:NixOS/nixpkgs/nixos-24.05#gnutar' --command \
+            nix run 'github:NixOS/nixpkgs/nixos-unstable#nixpkgs-review' -- ${{ inputs.subcmd }} \
+              --run 'tar --create --file="results-${{ github.sha }}-${{ matrix.runner }}.tar.gz" --auto-compress --dereference --recursive --verify --directory="./results" ${{ runner.temp }}' \
+              ${{ inputs.args }}
+      - name: Upload built files as an artifact
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        with:
+          if-no-files-found: 'error'
+          name: 'results'
+          # Do not archive raw files with this action for splitting jobs for different triggers and displaying
+          # This intentionally mades nested zip as `plgins(.zip)/micro-kdl.zip`. Cannot flatten with the upload-artifact restriction
+          #
+          # You can extract the product as `tar -xf results-foobar.tar.gz`
+          path: |
+            ${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}.tar.gz
