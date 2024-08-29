@@ -3,7 +3,7 @@
 [![Dev Shell Status](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml/badge.svg?branch=main)](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml?query=branch%3Amain+)
 [![nixpkgs-review Status](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml/nixpkgs-review.yml)](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml)
 
-## Motiation
+## Motivation
 
 Checking the build result of nixpkgs in multiple platforms is an annoying task.
 
