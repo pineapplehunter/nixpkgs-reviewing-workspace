@@ -37,18 +37,18 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@ab6bcb2d5af0e904d04aea750e2089e9dc4cbfdd # v13
       - uses: DeterminateSystems/magic-nix-cache-action@b46e247b898aa56e6d2d2e728dc6df6c84fdb738 # v7
       - run: |
-          nix shell 'github:NixOS/nixpkgs/nixos-24.05#gnutar' --command \
+          nix shell 'github:NixOS/nixpkgs/nixos-24.05#_7zz' --command \
             nix run 'github:NixOS/nixpkgs/nixos-unstable#nixpkgs-review' -- ${{ inputs.subcmd }} \
-              --run 'tar --create --file="results-${{ github.sha }}-${{ matrix.runner }}.tar.gz" --auto-compress --dereference --recursive --verify --directory="./results" ${{ runner.temp }}' \
+              --run '7zz a -tzip "${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}" ./results' \
               ${{ inputs.args }}
       - name: Upload built files as an artifact
         uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
         with:
           if-no-files-found: 'error'
-          name: 'results'
+          name: 'results.zip'
           # Do not archive raw files with this action for splitting jobs for different triggers and displaying
           # This intentionally mades nested zip as `plgins(.zip)/micro-kdl.zip`. Cannot flatten with the upload-artifact restriction
           #
           # You can extract the product as `tar -xf results-foobar.tar.gz`
           path: |
-            ${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}.tar.gz
+            ${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}.zip
