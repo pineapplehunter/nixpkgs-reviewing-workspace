@@ -25,7 +25,7 @@ jobs:
           - ubuntu-24.04 # x86_64
           # Add ARM based Linux runner if available in free plan
           # https://github.blog/news-insights/product-news/arm64-on-github-actions-powering-faster-more-efficient-build-systems/
-          - macos-14 # aarch64
+          - macos-15 # aarch64
           - macos-13 # x86_64
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
