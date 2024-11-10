@@ -23,6 +23,7 @@
               buildInputs = [
                 bashInteractive
                 findutils # xargs
+                coreutils # mktemp
                 nixfmt-rfc-style
                 nil
                 go-task
@@ -33,6 +34,7 @@
                 # nixpkgs-review # TODO: Enable since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
                 gh
                 git
+                tree
               ];
             };
         }
