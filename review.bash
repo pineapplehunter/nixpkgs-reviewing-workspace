@@ -15,3 +15,5 @@ gh run download "$run_id" --dir "$output_dir"
 echo "Downloaded the files in $output_dir"
 
 tree "$output_dir"
+
+fd --absolute-path . "$output_dir"

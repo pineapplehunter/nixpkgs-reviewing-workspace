@@ -35,6 +35,7 @@
                 gh
                 git
                 tree
+                fd
               ];
             };
         }
