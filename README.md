@@ -28,30 +28,6 @@ Excluding no extra runner as _large_. Which cannot be used in free plan.
 
 ## Usage
 
-[Run workflow](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml)
-
-Build results will be uploaded in the artifact.\
-You can download it with `gh run download [<run-id>]`
-
-```console
-> output_dir="$(mktemp --directory)"; gh run download 11763704048 --dir "$output_dir"; cd "$output_dir"; tree
-direnv: unloading
-.
-├── nixpkgs-review-files-pr-354285-ARM64-macOS
-│   └── pr-354285
-│       ├── attrs.nix
-│       ├── report.json
-│       └── report.md
-├── nixpkgs-review-files-pr-354285-X64-Linux
-│   └── pr-354285
-│       ├── attrs.nix
-│       ├── report.json
-│       └── report.md
-└── nixpkgs-review-files-pr-354285-X64-macOS
-    └── pr-354285
-        ├── attrs.nix
-        ├── report.json
-        └── report.md
-
-7 directories, 9 files
+```bash
+./review.bash "$PR_NUMBER"
 ```
