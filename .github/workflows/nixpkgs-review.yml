@@ -1,23 +1,15 @@
 name: 👁️
 on:
+  # pull_request: # Enable only when developing
   workflow_dispatch:
     inputs:
-      subcmd:
-        type: choice
+      pr-number:
+        description: 'Target PR number'
         required: true
-        description: 'sub command to be used in nixpkgs-review'
-        default: 'pr'
-        options:
-          - pr
-          - rev
-          - wip
-      args:
-        type: string
-        required: true
-        description: 'Args to be used in nixpkgs-review'
+        type: number
 
 jobs:
-  tasks:
+  review:
     strategy:
       fail-fast: false
       matrix:
@@ -28,27 +20,30 @@ jobs:
           - macos-15 # aarch64
           - macos-13 # x86_64
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 30
+    timeout-minutes: 180
     steps:
+      - name: Make sure dependent environments
+        id: get-meta
+        run: | # shell
+          #
+          # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/nixpkgs_review/builddir.py#L24-L36
+          echo "cache_dir=${XDG_CACHE_HOME:-${HOME}/.cache}" | tee -a "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: 'NixOS/nixpkgs'
-          fetch-depth: 0 # Required all commits for merging operation
+
       - uses: DeterminateSystems/nix-installer-action@b92f66560d6f97d6576405a7bae901ab57e72b6a # v15
-      - uses: DeterminateSystems/magic-nix-cache-action@87b14cf437d03d37989d87f0fa5ce4f5dc1a330b # v8
-      - run: |
-          nix shell 'github:NixOS/nixpkgs/nixos-24.05#_7zz' --command \
-            nix run 'github:NixOS/nixpkgs/nixos-unstable#nixpkgs-review' -- ${{ inputs.subcmd }} \
-              --run '7zz a -tzip "${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}" ./results' \
-              ${{ inputs.args }}
-      - name: Upload built files as an artifact
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
-        with:
-          if-no-files-found: 'error'
-          name: 'results.zip'
-          # Do not archive raw files with this action for splitting jobs for different triggers and displaying
-          # This intentionally mades nested zip as `plgins(.zip)/micro-kdl.zip`. Cannot flatten with the upload-artifact restriction
+      # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
+
+      # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
+      - run: | # shell
           #
-          # You can extract the product as `tar -xf results-foobar.tar.gz`
-          path: |
-            ${{ runner.temp }}/results-${{ github.sha }}-${{ matrix.runner }}.zip
+          nix run 'github:Mic92/nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: 'nixpkgs-review-files-pr-${{ inputs.pr-number }}-${{ runner.arch }}-${{ runner.os }}'
+          path: '${{ steps.get-meta.outputs.cache_dir }}/nixpkgs-review/'
+          if-no-files-found: 'error'

@@ -1,7 +1,6 @@
 # nixpkgs-reviewing-workspace
 
 [![Dev Shell Status](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml/badge.svg?branch=main)](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml?query=branch%3Amain+)
-[![nixpkgs-review Status](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/devshell.yml/nixpkgs-review.yml)](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml)
 
 ## Motivation
 
@@ -15,16 +14,21 @@ Solution
 
 - GitHub Actions are free for pricing in public repositories. 😋
 
+## Matrix
+
+As I understand that, Which github provided runner matches the Nix supported [systems](https://github.com/NixOS/nixpkgs/blob/nixos-24.05/lib/systems/flake-systems.nix).
+
+Excluding no extra runner as _large_. Which cannot be used in free plan.
+
+| Nix            | GitHub       |
+| -------------- | ------------ |
+| x86_64-linux   | ubuntu-24.04 |
+| x86_64-darwin  | macos-13     |
+| aarch64-darwin | macos-15     |
+
 ## Usage
 
 [Run workflow](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml)
 
 Build results will be uploaded in the artifact.\
 You can download it with `gh run download [<run-id>]`
-
-For example, if I need to test <https://github.com/NixOS/nixpkgs/pull/329482>, run with these params.
-
-```yaml
-subcmd: pr
-args: https://github.com/NixOS/nixpkgs/pull/329482
-```
