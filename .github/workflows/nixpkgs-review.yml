@@ -37,7 +37,8 @@ jobs:
       # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
 
       # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
-      - run: | # shell
+      - name: Run latest nixpkgs-review
+        run: | # shell
           #
           nix run 'github:Mic92/nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result
 
