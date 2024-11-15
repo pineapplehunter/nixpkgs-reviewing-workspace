@@ -36,6 +36,9 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@b92f66560d6f97d6576405a7bae901ab57e72b6a # v15
       # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
 
+      - name: Dump nix.conf. Especially checking `sandbox`
+        run: cat /etc/nix/nix.conf
+
       # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
       - name: Run latest nixpkgs-review
         env:
