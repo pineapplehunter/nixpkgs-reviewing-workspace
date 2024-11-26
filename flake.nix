@@ -1,10 +1,18 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    selfup = {
+      url = "github:kachick/selfup/v1.1.7";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs }:
+    {
+      self,
+      nixpkgs,
+      selfup,
+    }:
     let
       inherit (nixpkgs) lib;
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
@@ -17,10 +25,9 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          default =
-            with pkgs;
-            mkShellNoCC {
-              buildInputs = [
+          default = pkgs.mkShellNoCC {
+            buildInputs =
+              (with pkgs; [
                 bashInteractive
                 findutils # xargs
                 coreutils # mktemp
@@ -36,8 +43,9 @@
                 git
                 tree
                 fd
-              ];
-            };
+              ])
+              ++ [ selfup.packages.${system}.default ];
+          };
         }
       );
     };
