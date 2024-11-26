@@ -1,6 +1,11 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # Don't use this is GitHub Actions
+    nixpkgs-review = {
+      url = "github:Mic92/nixpkgs-review";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     selfup = {
       url = "github:kachick/selfup/v1.1.7";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -11,6 +16,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-review,
       selfup,
     }:
     let
@@ -44,7 +50,10 @@
                 tree
                 fd
               ])
-              ++ [ selfup.packages.${system}.default ];
+              ++ [
+                nixpkgs-review.packages.${system}.default
+                selfup.packages.${system}.default
+              ];
           };
         }
       );
