@@ -20,7 +20,7 @@ jobs:
           - macos-15 # aarch64
           - macos-13 # x86_64
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 180
+    # timeout-minutes: 180 # Any limitations might not fit for this repository. So temporary disabling
     steps:
       - name: Make sure dependent environments
         id: get-meta
