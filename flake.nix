@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    # Don't use this is GitHub Actions
+    # Don't use this in GitHub Actions
     nixpkgs-review = {
       url = "github:Mic92/nixpkgs-review";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,7 +44,7 @@
                 dprint
                 typos
 
-                # nixpkgs-review # TODO: Enable since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
+                # nixpkgs-review # TODO: Enable since https://nixpk.gs/pr-tracker.html?pr=366587 is useable in unstable channel
                 gh
                 git
                 tree
