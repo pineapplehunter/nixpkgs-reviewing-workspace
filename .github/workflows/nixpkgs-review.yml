@@ -39,13 +39,14 @@ jobs:
       - name: Outputs nix config which including sandbox mode
         run: nix show-config
 
+      # TODO: Prefer nixpkgs version of nixpkgs-review since updated to https://github.com/Mic92/nixpkgs-review/commit/055465e55d131ffb1e1617f46d3bade0b87bbe69 or higher
       - name: Run latest nixpkgs-review
         env:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
           GITHUB_TOKEN: '${{ github.token }}'
         run: | # shell
           #
-          nix develop --command nixpkgs-review pr '${{ inputs.pr-number }}' --print-result
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result
 
       - name: Upload artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
