@@ -3,7 +3,7 @@
 set -euxo pipefail
 
 pr_number="$1"
-output_dir="$(mktemp --directory)"
+output_dir="$(mktemp --tmpdir --directory "nixpkgs-reviewing-workspace.${pr_number}.XXXXXX")"
 
 gh workflow run 'nixpkgs-review.yml' --field pr-number="$pr_number"
 sleep 10 # TODO: Ensure to get correct ID
