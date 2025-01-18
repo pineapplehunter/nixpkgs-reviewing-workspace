@@ -38,6 +38,7 @@
 
                 dprint
                 typos
+                shfmt
 
                 nixpkgs-review
                 bubblewrap # Require to run nixpkgs-review with sandbox mode. See https://github.com/Mic92/nixpkgs-review/pull/441
