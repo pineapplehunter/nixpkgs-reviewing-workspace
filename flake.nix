@@ -12,6 +12,7 @@
     {
       nixpkgs,
       selfup,
+      ...
     }:
     let
       inherit (nixpkgs) lib;
