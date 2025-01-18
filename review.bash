@@ -10,7 +10,7 @@ sleep 10 # TODO: Ensure to get correct ID
 run_id="$(gh run list --workflow=nixpkgs-review.yml --branch main --limit 1 --json databaseId --jq '.[].databaseId')"
 
 # Replace with like a `gh workflow run --watch` if https://github.com/cli/cli/issues/3559 is resolved
-gh run watch "$run_id" # Don't use --exit-status to make sure the downloading
+gh run watch "$run_id" --interval 10 # Don't use --exit-status to make sure the downloading
 gh run download "$run_id" --dir "$output_dir"
 
 echo "Downloaded the files in $output_dir"
