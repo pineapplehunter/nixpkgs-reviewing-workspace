@@ -19,5 +19,4 @@ tree "$output_dir"
 
 fd --absolute-path . "$output_dir"
 
-# TODO: Trim excess headers
-fd --absolute-path report.md "$output_dir" | ruby ./sort.rb | xargs cat
+fd --absolute-path report.md "$output_dir" | ruby ./sort.rb | ruby ./concat.rb

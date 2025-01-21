@@ -30,7 +30,6 @@
             buildInputs =
               (with pkgs; [
                 bashInteractive
-                findutils # xargs
                 coreutils # mktemp
                 nixfmt-rfc-style
                 nil
