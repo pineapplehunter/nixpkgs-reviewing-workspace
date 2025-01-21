@@ -32,7 +32,7 @@ Excluding _large_ runners here. Which cannot be used in free plan.
 First need to run
 
 ```bash
-task review -- "$PR_NUMBER"
+task start -- "$PR_NUMBER"
 ```
 
 If you want to get results and reports in another machine, run below
