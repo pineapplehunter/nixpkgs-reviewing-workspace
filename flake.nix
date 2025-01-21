@@ -46,6 +46,8 @@
                 git
                 tree
                 fd
+
+                (ruby_3_4.withPackages (ps: with ps; [ rubocop ]))
               ])
               ++ [
                 selfup.packages.${system}.default

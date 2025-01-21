@@ -19,6 +19,5 @@ tree "$output_dir"
 
 fd --absolute-path . "$output_dir"
 
-# TODO: Sort the results with nixpkgs Tier - https://github.com/NixOS/nixpkgs/blob/nixos-24.11/lib/systems/flake-systems.nix
 # TODO: Trim excess headers
-fd --absolute-path report.md "$output_dir" | xargs cat
+fd --absolute-path report.md "$output_dir" | ruby ./sort.rb | xargs cat
