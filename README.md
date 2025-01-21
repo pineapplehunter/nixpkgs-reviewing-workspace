@@ -40,3 +40,10 @@ If you want to get results and reports in another machine, run below
 ```bash
 task resume
 ```
+
+## Traps
+
+I have obtained a different result with the runners and my device once.\
+I suspect it is caused by pnpm spec, but you should remember this case, especially if the package is using `pnpm.fetchDeps`.
+
+- <https://github.com/NixOS/nixpkgs/pull/361460/files#r1906545103>
