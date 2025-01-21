@@ -29,6 +29,14 @@ Excluding _large_ runners here. Which cannot be used in free plan.
 
 ## Usage
 
+First need to run
+
 ```bash
-./review.bash "$PR_NUMBER"
+task review -- "$PR_NUMBER"
+```
+
+If you want to get results and reports in another machine, run below
+
+```bash
+task resume
 ```

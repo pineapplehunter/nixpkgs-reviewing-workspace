@@ -8,6 +8,14 @@ tasks:
       - task: fmt
       - task: lint
       - task: test
+  start:
+    cmds:
+      - ./review.bash {{.CLI_ARGS}}
+  resume:
+    env:
+      GH_FORCE_TTY: '50%'
+    cmds:
+      - gh run list --workflow 'nixpkgs-review.yml' | fzf --ansi --header-lines=1 --nth 6 --bind 'enter:become(./resume.bash {6})'
   check:
     deps:
       - task: test

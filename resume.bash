@@ -2,14 +2,9 @@
 
 set -euxo pipefail
 
-# TODO: Merge this file with resume.bash
+# TODO: Merge this file with review.bash
 
-pr_number="$1"
-
-gh workflow run 'nixpkgs-review.yml' --field pr-number="$pr_number"
-sleep 10 # TODO: Ensure to get correct ID
-run_id="$(gh run list --workflow=nixpkgs-review.yml --branch main --limit 1 --json databaseId --jq '.[].databaseId')"
-
+run_id="$1"
 output_dir="$(mktemp --tmpdir --directory "nixpkgs-reviewing-workspace.run-${run_id}.XXXX")"
 
 # Replace with like a `gh workflow run --watch` if https://github.com/cli/cli/issues/3559 is resolved
