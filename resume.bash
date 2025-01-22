@@ -2,8 +2,6 @@
 
 set -euxo pipefail
 
-# TODO: Merge this file with review.bash
-
 run_id="$1"
 output_dir="$(mktemp --tmpdir --directory "nixpkgs-reviewing-workspace.run-${run_id}.XXXX")"
 
