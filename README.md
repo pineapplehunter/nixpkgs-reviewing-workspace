@@ -29,11 +29,15 @@ Excluding _large_ runners here. Which cannot be used in free plan.
 
 ## Usage
 
-First need to run
+Specify the [NixOS/nixpkgs PR](https://github.com/NixOS/nixpkgs/pulls) number with following CLI,
 
 ```bash
 task start -- "$PR_NUMBER"
 ```
+
+or input it in [workflow_dispatch](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml) if you can only use a smartphone.
+
+![Image](https://github.com/user-attachments/assets/2fd03f40-7561-4c48-a35e-ed9ba309ac5f)
 
 If you want to get results and reports in another machine, run below
 
