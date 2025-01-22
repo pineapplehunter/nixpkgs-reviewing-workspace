@@ -3,6 +3,6 @@
 set -euxo pipefail
 
 gh run list --workflow 'nixpkgs-review.yml' \
-	--json status,databaseId,updatedAt \
-	--template '{{range .}}{{tablerow .status .databaseId (timeago .updatedAt)}}{{end}}' |
-	fzf --nth 2 --bind 'enter:become(./resume.bash {2})'
+	--json name,databaseId,status,updatedAt \
+	--template '{{range .}}{{tablerow .name .databaseId .status (timeago .updatedAt)}}{{end}}' |
+	fzf --nth 1 --bind 'enter:become(./resume.bash {2})'
