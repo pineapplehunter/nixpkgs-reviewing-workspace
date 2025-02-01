@@ -39,7 +39,6 @@ jobs:
         run: git rev-parse --is-shallow-repository
 
       - uses: DeterminateSystems/nix-installer-action@e50d5f73bfe71c2dd0aa4218de8f4afa59f8f81d # v16
-      # Don't add DeterminateSystems/magic-nix-cache-action in this workflow. Caching is not reasonable for this use
 
       - name: Outputs nix version and the config
         run: |
