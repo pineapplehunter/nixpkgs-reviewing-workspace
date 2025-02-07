@@ -24,4 +24,4 @@ jobs:
         env:
           GH_TOKEN: '${{ github.token }}'
         run: |
-          nix develop --command task resume -- '${{ inputs.run_id }}' >> "$GITHUB_STEP_SUMMARY"
+          nix develop --command ./resume.bash '${{ inputs.run_id }}' >> "$GITHUB_STEP_SUMMARY"
