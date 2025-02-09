@@ -6,13 +6,13 @@ on:
       run_id:
         description: 'Target Run'
         required: true
-        type: number
+        type: string
   workflow_dispatch:
     inputs:
       run_id:
         description: 'Target Run'
         required: true
-        type: number
+        type: string
 
 jobs:
   report:
