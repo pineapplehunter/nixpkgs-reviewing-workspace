@@ -1,6 +1,7 @@
 name: 👁️
 # https://stackoverflow.com/questions/71155641/github-actions-how-to-view-inputs-for-workflow-dispatch
 run-name: 'NixOS/nixpkgs#${{ inputs.pr-number }}'
+# run-name: '[Experimental]' # Enable only when developing
 on:
   # pull_request: # Enable only when developing
   workflow_dispatch:
@@ -9,6 +10,9 @@ on:
         description: 'Target PR number'
         required: true
         type: number
+
+# env:
+#   pr-number: '42' # Enable only when developing
 
 jobs:
   review:
@@ -45,13 +49,13 @@ jobs:
           nix --version
           nix config show
 
-      - name: Run nixpkgs-review
+      - name: Run binary-cached nixpkgs-review
         env:
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/README.md?plain=1#L239-L260
           GITHUB_TOKEN: '${{ github.token }}'
         run: | # shell
           #
-          nix develop --command nixpkgs-review pr '${{ inputs.pr-number }}' --print-result
+          nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- pr '${{ inputs.pr-number }}' --print-result
 
       - name: Upload artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
