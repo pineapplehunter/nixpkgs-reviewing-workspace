@@ -9,7 +9,7 @@ on:
       pr-number:
         description: 'PR number'
         required: true
-        type: number
+        type: string # Don't use `number` type here, GitHub Apps in both Android and iOS forces them as 'Float'
       runners:
         description: 'Runners'
         required: true
@@ -42,6 +42,18 @@ jobs:
           #
           # https://github.com/Mic92/nixpkgs-review/blob/055465e55d131ffb1e1617f46d3bade0b87bbe69/nixpkgs_review/builddir.py#L24-L36
           echo "cache_dir=${XDG_CACHE_HOME:-${HOME}/.cache}" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Validate PR number
+        run: |
+          input="${{ github.event.inputs.pr-number }}"
+
+          # Check if the input is a positive integer (greater than 0)
+          if ! [[ "$input" =~ ^[1-9][0-9]*$ ]]; then
+            echo "❌ Error: The input \"$input\" is not a valid positive integer (e.g., 1, 42)."
+            exit 1
+          fi
+
+          echo "✅ Input \"$input\" is a valid positive integer."
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
