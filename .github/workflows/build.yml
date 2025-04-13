@@ -12,7 +12,8 @@ on:
         type: string
       repository:
         description: 'GitHub repository'
-        default: 'NixOS/nixpkgs'
+        # Cannot use ${{ github.repository_owner }} here.
+        default: 'kachick/nixpkgs'
         required: true
         type: string
       ref:
