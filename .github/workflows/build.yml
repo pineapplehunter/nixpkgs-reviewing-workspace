@@ -72,3 +72,5 @@ jobs:
           name: 'build-${{ inputs.pname }}-${{ inputs.ref }}-${{ runner.arch }}-${{ runner.os }}'
           path: './result/'
           if-no-files-found: 'error'
+          # This is a broken change in their minor version updates. See https://github.com/actions/upload-artifact/commit/cb6558bb10fe4afe4054d0be4b3136e673eb5e7f and https://github.com/actions/upload-artifact/pull/598
+          include-hidden-files: 'true' # Required for `bin/.bin-wrapped`
