@@ -2,16 +2,11 @@
   inputs = {
     # Prefer nixpkgs- rather than nixos- for darwin
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    selfup = {
-      url = "github:kachick/selfup/v1.1.8";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       nixpkgs,
-      selfup,
       ...
     }:
     let
@@ -27,8 +22,9 @@
         in
         {
           default = pkgs.mkShellNoCC {
-            buildInputs =
-              (with pkgs; [
+            buildInputs = (
+              with pkgs;
+              [
                 bashInteractive
                 coreutils # mktemp
                 nixfmt-rfc-style
@@ -48,10 +44,8 @@
                 fzf
 
                 (ruby_3_4.withPackages (ps: with ps; [ rubocop ]))
-              ])
-              ++ [
-                selfup.packages.${system}.default
-              ];
+              ]
+            );
           };
         }
       );
