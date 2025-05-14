@@ -35,7 +35,7 @@ Excluding _large_ runners here. Which cannot be used in free plan.
 Specify the [NixOS/nixpkgs PR](https://github.com/NixOS/nixpkgs/pulls) number with following CLI,
 
 ```bash
-nix run .#review
+nix run .#review -- "$PR_NUMBER"
 ```
 
 or input it in [workflow_dispatch](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/nixpkgs-review.yml) if you can only use a smartphone.
