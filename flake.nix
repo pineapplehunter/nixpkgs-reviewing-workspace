@@ -2,23 +2,18 @@
   inputs = {
     # Prefer nixpkgs- rather than nixos- for darwin
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    selfup = {
-      url = "github:kachick/selfup/v1.1.8";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       nixpkgs,
-      selfup,
       ...
     }:
     let
       inherit (nixpkgs) lib;
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
     in
-    {
+    rec {
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
       devShells = forAllSystems (
         system:
@@ -27,8 +22,9 @@
         in
         {
           default = pkgs.mkShellNoCC {
-            buildInputs =
-              (with pkgs; [
+            buildInputs = (
+              with pkgs;
+              [
                 bashInteractive
                 coreutils # mktemp
                 nixfmt-rfc-style
@@ -48,10 +44,40 @@
                 fzf
 
                 (ruby_3_4.withPackages (ps: with ps; [ rubocop ]))
-              ])
-              ++ [
-                selfup.packages.${system}.default
-              ];
+              ]
+            );
+          };
+        }
+      );
+
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        pkgs.lib.packagesFromDirectoryRecursive {
+          inherit (pkgs) callPackage;
+          directory = ./pkgs;
+        }
+      );
+
+      apps = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          resume = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.resume;
+          };
+          fzf-resume = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.fzf-resume;
+          };
+          review = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.review;
           };
         }
       );
