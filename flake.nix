@@ -44,6 +44,8 @@
                 fzf
 
                 (ruby_3_4.withPackages (ps: with ps; [ rubocop ]))
+
+                hydra-check
               ]
             );
           };
