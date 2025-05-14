@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
 if [[ "$CI" != 'true' ]]; then
   set -x
 fi
@@ -25,4 +21,4 @@ fi
   fd --absolute-path . "$output_dir"
 } >&2
 
-fd --absolute-path report.md "$output_dir" | ruby ./sort.rb | ruby ./concat.rb
+fd --absolute-path report.md "$output_dir" | ruby "$HELPER_PATH/sort.rb" | ruby "$HELPER_PATH/concat.rb"

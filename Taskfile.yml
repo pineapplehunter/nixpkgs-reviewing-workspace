@@ -8,12 +8,6 @@ tasks:
       - task: fmt
       - task: lint
       - task: test
-  start:
-    cmds:
-      - ./review.bash {{.CLI_ARGS}}
-  resume:
-    cmds:
-      - ./fzf-resume.bash
   check:
     deps:
       - task: test

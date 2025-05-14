@@ -13,7 +13,7 @@
       inherit (nixpkgs) lib;
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
     in
-    {
+    rec {
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
       devShells = forAllSystems (
         system:
@@ -46,6 +46,38 @@
                 (ruby_3_4.withPackages (ps: with ps; [ rubocop ]))
               ]
             );
+          };
+        }
+      );
+
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        pkgs.lib.packagesFromDirectoryRecursive {
+          inherit (pkgs) callPackage;
+          directory = ./pkgs;
+        }
+      );
+
+      apps = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          resume = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.resume;
+          };
+          fzf-resume = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.fzf-resume;
+          };
+          review = {
+            type = "app";
+            program = pkgs.lib.getExe packages.${system}.review;
           };
         }
       );
