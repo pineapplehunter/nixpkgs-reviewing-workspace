@@ -1,15 +1,18 @@
 name: 🧪
 # https://stackoverflow.com/questions/71155641/github-actions-how-to-view-inputs-for-workflow-dispatch
-run-name: '${{ inputs.pname }}: ${{ inputs.repository }}#${{ inputs.ref }}'
+run-name: '${{ inputs.pnames }}: ${{ inputs.repository }}#${{ inputs.ref }}'
 # run-name: '[Experimental] plemoljp-nf: kachick/nixpkgs#aa32ada9e1344d0a3abb64ffc806f8b07732fe4c' # Enable only when developing
 on:
   # pull_request: # Enable only when developing
   workflow_dispatch:
     inputs:
-      pname:
-        description: 'Package name'
+      # Accept multiple packages for use-case of crystal. e.g crystal_1_11 and crystal_1_16
+      pnames:
+        description: 'Package names to build'
         required: true
         type: string
+        default: |
+          [ "gnugrep" ]
       repository:
         description: 'GitHub repository'
         # Cannot use ${{ github.repository_owner }} here.
@@ -46,6 +49,7 @@ jobs:
       fail-fast: false
       matrix:
         runner: '${{ fromJson(inputs.runners) }}'
+        pname: '${{ fromJson(inputs.pnames) }}'
     runs-on: ${{ matrix.runner }}
     # timeout-minutes: 180 # Any limitations might not fit for this repository. So temporary disabling
     steps:
@@ -63,13 +67,13 @@ jobs:
 
       - name: Build
         run: |
-          nix-build --attr 'pkgs.${{ inputs.pname }}'
+          nix-build --attr 'pkgs.${{ matrix.pname }}'
 
       - name: Upload artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           # Should trim `-` for path available if using inputs.repository
-          name: 'build-${{ inputs.pname }}-${{ inputs.ref }}-${{ runner.arch }}-${{ runner.os }}'
+          name: 'build-${{ matrix.pname }}-${{ inputs.ref }}-${{ runner.arch }}-${{ runner.os }}'
           path: './result*'
           if-no-files-found: 'error'
           # This is a broken change in their minor version updates. See https://github.com/actions/upload-artifact/commit/cb6558bb10fe4afe4054d0be4b3136e673eb5e7f and https://github.com/actions/upload-artifact/pull/598
