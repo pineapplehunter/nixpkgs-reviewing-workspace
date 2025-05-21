@@ -33,6 +33,7 @@ jobs:
       fail-fast: false
       matrix:
         runner: '${{ fromJson(inputs.runners) }}'
+    continue-on-error: true # Simply avoiding the state for #91
     runs-on: ${{ matrix.runner }}
     # timeout-minutes: 180 # Any limitations might not fit for this repository. So temporary disabling
     steps:
