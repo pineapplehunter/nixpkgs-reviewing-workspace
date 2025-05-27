@@ -157,5 +157,6 @@ jobs:
   report:
     needs: [review]
     uses: ./.github/workflows/report.yml
+    secrets: inherit
     with:
       run_id: '${{ github.run_id }}'
