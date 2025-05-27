@@ -23,5 +23,7 @@ jobs:
       - name: Generate report
         env:
           GH_TOKEN: '${{ github.token }}'
+          DISCORD_URL: '${{ secrets.DISCORD_URL }}'
         run: |
           nix run .#resume -- '${{ inputs.run_id }}' >> "$GITHUB_STEP_SUMMARY"
+          nix run .#resume -- '${{ inputs.run_id }}' | nix run .#notify
