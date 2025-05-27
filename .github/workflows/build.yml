@@ -16,7 +16,7 @@ on:
       repository:
         description: 'GitHub repository'
         # Cannot use ${{ github.repository_owner }} here.
-        default: 'kachick/nixpkgs'
+        default: 'pineapplehunter/nixpkgs'
         required: true
         type: string
       ref:
