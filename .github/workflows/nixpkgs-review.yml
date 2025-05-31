@@ -57,6 +57,7 @@ jobs:
           echo "✅ Input \"$input\" is a valid positive integer."
   
       - name: enable unprivileged userns clone
+        if: runner.os == 'Linux'
         run: |
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           sudo sysctl -w kernel.unprivileged_userns_clone=1
