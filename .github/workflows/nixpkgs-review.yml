@@ -70,7 +70,9 @@ jobs:
         # Often needed for debugging purpose. See GH-26 https://github.com/Mic92/nixpkgs-review/pull/426/files#diff-068fea7dedadb885b7dcccc0fe1bc843caa6f1da0c6622ee7a7d56e99c31475aR598-R606
         run: git rev-parse --is-shallow-repository
 
-      - uses: DeterminateSystems/nix-installer-action@21a544727d0c62386e78b4befe52d19ad12692e3 # v17
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Outputs nix version and the config
         run: |
