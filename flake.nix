@@ -28,7 +28,7 @@
                 bashInteractive
                 coreutils # mktemp
                 nixfmt-rfc-style
-                nil
+                nixd
                 go-task
 
                 dprint
