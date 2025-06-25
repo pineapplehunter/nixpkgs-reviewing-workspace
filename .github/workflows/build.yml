@@ -27,7 +27,7 @@ on:
       runners:
         description: 'Runners'
         required: true
-        # It does not alloow list and multiline string.
+        # It does not allow list and multiline string.
         #   - https://github.com/orgs/community/discussions/12882
         #   - https://github.com/actions/toolkit/issues/184
         type: string
