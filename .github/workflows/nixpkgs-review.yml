@@ -86,11 +86,19 @@ jobs:
         run: git rev-parse --is-shallow-repository
 
       - uses: DeterminateSystems/nix-installer-action@21a544727d0c62386e78b4befe52d19ad12692e3 # v17
-
+        with:
+          # Syntax example: https://github.com/DeterminateSystems/nix-installer-action/blob/c723f3a885e3f1d866d91f4f0c33dd44b1fc7c60/.github/workflows/ci.yml#L128-L129
+          extra-conf: |
+            sandbox = true
       - name: Outputs nix version and the config
         run: |
           nix --version
           nix config show
+
+      - name: Ensure sandbox mode
+        run: |
+          set -x
+          [[ "$(nix config show sandbox)" == 'true' ]]
 
       - name: Run binary-cached nixpkgs-review for PR
         if: ${{ inputs.pr-number != '' }}
