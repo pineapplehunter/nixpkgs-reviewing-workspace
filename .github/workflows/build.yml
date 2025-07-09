@@ -59,11 +59,19 @@ jobs:
           ref: '${{ inputs.ref }}'
 
       - uses: DeterminateSystems/nix-installer-action@c723f3a885e3f1d866d91f4f0c33dd44b1fc7c60 # v18
+        with:
+          extra-conf: |
+            sandbox = true
 
       - name: Outputs nix version and the config
         run: |
           nix --version
           nix config show
+
+      - name: Ensure sandbox mode
+        run: |
+          set -x
+          [[ "$(nix config show sandbox)" == 'true' ]]
 
       - name: Build
         run: |
