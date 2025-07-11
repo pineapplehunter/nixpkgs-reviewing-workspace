@@ -15,4 +15,4 @@ updates:
           - '3.0.5'
       - dependency-name: 'cachix/install-nix-action'
         versions:
-          - '31.4.1' # Don't use 31.5.0 for now, to avoid Nix 2.30.0. See https://github.com/actions/runner-images/issues/12574#issuecomment-3060801512
+          - '31.5.0' # Don't use 31.5.0 for now, to avoid Nix 2.30.0. See https://github.com/actions/runner-images/issues/12574#issuecomment-3060801512
