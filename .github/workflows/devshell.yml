@@ -33,9 +33,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@c723f3a885e3f1d866d91f4f0c33dd44b1fc7c60 # v18
+      - uses: cachix/install-nix-action@f0fe604f8a612776892427721526b4c7cfb23aba # v31.4.1 - Don't use DeterminateSystems/nix-installer-action that cannot specify the Nix version
         with:
-          extra-conf: |
+          extra_nix_config: |
             sandbox = true
       - name: Ensure sandbox mode
         run: |

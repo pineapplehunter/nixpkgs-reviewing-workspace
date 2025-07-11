@@ -13,7 +13,6 @@ updates:
           - '4.3.0'
           # https://github.com/actions/dependency-review-action/issues/493
           - '3.0.5'
-    groups:
-      determinatesystems-actions:
-        patterns:
-          - 'DeterminateSystems*'
+      - dependency-name: 'cachix/install-nix-action'
+        versions:
+          - '31.4.1' # Don't use 31.5.0 for now, to avoid Nix 2.30.0. See https://github.com/actions/runner-images/issues/12574#issuecomment-3060801512
