@@ -41,6 +41,10 @@ on:
         description: 'Sandbox mode'
         type: boolean # `inputs.sandbox` will be boolean, but `github.event.inputs.sandbox` will be string. This is hacky, but useful for using the value in shellscripts
         default: true
+      force-rebuild:
+        description: Force rebuild
+        type: boolean
+        default: false
 
 # env: # Enable only when developing
 #   pname: 'plemoljp-nf'
@@ -79,7 +83,11 @@ jobs:
 
       - name: Build
         run: |
-          nix-build --attr 'pkgs.${{ matrix.pname }}'
+          if [[ ${{ inputs.force-rebuild }} ]]; then
+            nix-build --attr 'pkgs.${{ matrix.pname }}' --option substitute false
+          else
+            nix-build --attr 'pkgs.${{ matrix.pname }}'
+          fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
