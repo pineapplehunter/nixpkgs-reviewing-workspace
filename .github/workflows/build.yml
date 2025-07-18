@@ -83,7 +83,7 @@ jobs:
 
       - name: Build
         run: |
-          if [[ ${{ inputs.force-rebuild }} ]]; then
+          if [[ '${{ github.event.inputs.force-rebuild }}' == 'true' ]]; then
             nix-build --attr 'pkgs.${{ matrix.pname }}' --option substitute false
           else
             nix-build --attr 'pkgs.${{ matrix.pname }}'
