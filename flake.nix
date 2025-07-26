@@ -22,12 +22,17 @@
         in
         {
           default = pkgs.mkShellNoCC {
+            env = {
+              # Correct pkgs versions in the nixd inlay hints
+              NIX_PATH = "nixpkgs=${pkgs.path}";
+            };
+
             buildInputs = (
               with pkgs;
               [
                 bashInteractive
                 coreutils # mktemp
-                nixfmt-rfc-style
+                nixfmt
                 nixd
                 go-task
 
