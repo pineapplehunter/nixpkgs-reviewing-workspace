@@ -6,7 +6,7 @@ module Sorter
     end
   end
 
-  # List of tiers: https://github.com/NixOS/nixpkgs/blob/nixos-24.11/lib/systems/flake-systems.nix
+  # List of tiers: https://github.com/NixOS/nixpkgs/blob/nixos-25.05/lib/systems/flake-systems.nix
   NIX_BY_ASSET_NAME = {
     Runner.new(arch: 'X64', os: 'Linux').asset_name => Nix.new(platform: 'x86_64-linux', tier: 1),
     Runner.new(arch: 'ARM64', os: 'Linux').asset_name => Nix.new(platform: 'aarch64-linux', tier: 2),

@@ -17,7 +17,7 @@ Solution
 
 ## Matrix
 
-As I understand that, Which github provided runner matches the Nix supported [systems](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/lib/systems/flake-systems.nix).
+As I understand that, Which github provided runner matches the Nix supported [systems](https://github.com/NixOS/nixpkgs/blob/nixos-25.05/lib/systems/flake-systems.nix).
 
 Excluding _large_ runners here. Which cannot be used in free plan.
 
