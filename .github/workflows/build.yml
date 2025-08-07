@@ -32,7 +32,7 @@ on:
         #   - https://github.com/actions/toolkit/issues/184
         type: string
         # - ubuntu-24.04 # x86_64
-        # - ubuntu-24.04-arm # aarch64-Linux
+        # - ubuntu-24.04-arm # aarch64-linux
         # - macos-15 # aarch64
         # - macos-13 # x86_64
         default: |

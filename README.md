@@ -24,7 +24,7 @@ Excluding _large_ runners here. Which cannot be used in free plan.
 | Nix            | GitHub                                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------------------------------ |
 | x86_64-linux   | ubuntu-24.04                                                                                                 |
-| aarch64-Linux  | [ubuntu-24.04-arm](https://github.com/actions/partner-runner-images/blob/main/images/arm-ubuntu-24-image.md) |
+| aarch64-linux  | [ubuntu-24.04-arm](https://github.com/actions/partner-runner-images/blob/main/images/arm-ubuntu-24-image.md) |
 | x86_64-darwin  | macos-13                                                                                                     |
 | aarch64-darwin | macos-15                                                                                                     |
 
