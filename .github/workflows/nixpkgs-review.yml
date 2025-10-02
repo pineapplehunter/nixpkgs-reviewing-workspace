@@ -30,6 +30,10 @@ on:
         description: 'Sandbox mode'
         type: boolean # `inputs.sandbox` will be boolean, but `github.event.inputs.sandbox` will be string. This is hacky, but useful for using the value in shellscripts
         default: true
+      free-up-diskspace:
+        description: 'Free up disk space'
+        type: boolean
+        default: false
       args:
         # Use this option if your requirement is not simple. Might be needed for mass-rebuilds.
 
@@ -103,6 +107,23 @@ jobs:
           set -x
           [[ "$(nix config show sandbox)" == '${{ github.event.inputs.sandbox }}' ]]
 
+      - name: Logging disk space
+        run: df -h
+
+      - name: Clean space as per https://github.com/actions/virtual-environments/issues/709
+        # NOTE: This workflow removed 14 Gib in 50sec
+        # On the otherhand, additional apt purge step removed 6 Gib in 100s, so I don't want to use the additional steps for now
+        if: ${{ inputs.free-up-diskspace }}
+        run: |
+          docker images
+          docker image prune --all --force
+          sudo rm -rf '/opt/ghc'
+          sudo rm -rf '/usr/share/dotnet'
+          sudo rm -rf '$AGENT_TOOLSDIRECTORY'
+          sudo rm -rf '/usr/local/lib/android'
+          sudo rm -rf '/usr/local/share/boost'
+          df -h
+
       - name: Run binary-cached nixpkgs-review for PR
         if: ${{ inputs.pr-number != '' }}
         env:
@@ -120,6 +141,9 @@ jobs:
         run: | # shell
           #
           nix run 'github:NixOS/nixpkgs/nixpkgs-unstable#nixpkgs-review' -- ${{ inputs.args }}
+
+      - name: Logging disk space
+        run: df -h
 
       - name: Upload artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
