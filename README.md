@@ -17,15 +17,14 @@ Solution
 
 ## Matrix
 
-As I understand that, Which github provided runner matches the Nix supported [systems](https://github.com/NixOS/nixpkgs/blob/nixos-25.05/lib/systems/flake-systems.nix).
-
-Excluding _large_ runners here. Which cannot be used in free plan.
+The GitHub hosted runners for Nix supported [systems](https://github.com/NixOS/nixpkgs/blob/nixos-25.05/lib/systems/flake-systems.nix) are in the list below.\
+Large runners are excluded because they are not available on the free plan.
 
 | Nix            | GitHub                                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------------------------------ |
 | x86_64-linux   | ubuntu-24.04                                                                                                 |
 | aarch64-linux  | [ubuntu-24.04-arm](https://github.com/actions/partner-runner-images/blob/main/images/arm-ubuntu-24-image.md) |
-| x86_64-darwin  | macos-13                                                                                                     |
+| x86_64-darwin  | [macos-15-intel](https://github.com/actions/runner-images/issues/13045)                                      |
 | aarch64-darwin | macos-15                                                                                                     |
 
 ## Usage
