@@ -110,18 +110,23 @@ jobs:
       - name: Logging disk space
         run: df -h
 
-      - name: Clean space as per https://github.com/actions/virtual-environments/issues/709
-        # NOTE: This workflow removed 14 Gib in 50sec
+        # NOTE: These free-up steps removed 14 Gib in 50sec on Linux
         # On the otherhand, additional apt purge step removed 6 Gib in 100s, so I don't want to use the additional steps for now
+      - name: Free up disk space
         if: ${{ inputs.free-up-diskspace }}
         run: |
-          docker images
-          docker image prune --all --force
           sudo rm -rf '/opt/ghc'
           sudo rm -rf '/usr/share/dotnet'
           sudo rm -rf '$AGENT_TOOLSDIRECTORY'
-          sudo rm -rf '/usr/local/lib/android'
           sudo rm -rf '/usr/local/share/boost'
+          df -h
+
+      - name: Free up disk space on Linux
+        if: ${{ inputs.free-up-diskspace && runner.os == 'Linux' }}
+        run: |
+          docker images
+          docker image prune --all --force
+          sudo rm -rf '/usr/local/lib/android'
           df -h
 
       - name: Run binary-cached nixpkgs-review for PR
