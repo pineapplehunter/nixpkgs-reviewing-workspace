@@ -56,5 +56,4 @@ You can use [another workflow](https://github.com/kachick/nixpkgs-reviewing-work
 
 I observed differing results between GHA runners, my local device, and Hydra.
 
-- [Different hashes on my device and GHA runners when using `pnpm.fetchDeps`](https://github.com/NixOS/nixpkgs/pull/361460/files#r1906545103)
 - [Failed post-merge, even though macOS runners succeeded](https://github.com/NixOS/nixpkgs/pull/382541#issuecomment-2670547003)
