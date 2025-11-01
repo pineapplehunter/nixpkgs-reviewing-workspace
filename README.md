@@ -51,9 +51,3 @@ nix run .#fzf-resume
 
 Faster feedbacks much help us while early stage of adding or updating package.\
 You can use [another workflow](https://github.com/kachick/nixpkgs-reviewing-workspace/actions/workflows/build.yml) for that purpose even if not yet sending a PR.
-
-## Traps
-
-I observed differing results between GHA runners, my local device, and Hydra.
-
-- [Failed post-merge, even though macOS runners succeeded](https://github.com/NixOS/nixpkgs/pull/382541#issuecomment-2670547003)
